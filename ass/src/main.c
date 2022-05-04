@@ -21,9 +21,9 @@ int main(){
     reg.rip = (uint64_t)&program[11];
 
     mm[va2pa(0x7fffffffe060)] = 0x0;//rbp
-    mm[va2pa(0x7fffffffe05f)] = 0x0;
+    mm[va2pa(0x7fffffffe058)] = 0x0;
     mm[va2pa(0x7fffffffe050)] = 0xabcd;
-    mm[va2pa(0x7fffffffe04f)] = 0x12340000;
+    mm[va2pa(0x7fffffffe048)] = 0x12340000;
     mm[va2pa(0x7fffffffe040)] = 0x00000000;//rsp
 
 
