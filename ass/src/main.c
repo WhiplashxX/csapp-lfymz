@@ -20,11 +20,16 @@ int main(){
     reg.rsp = 0x7fffffffe040;
     reg.rip = (uint64_t)&program[11];
 
-    mm[va2pa(0x7fffffffe060)] = 0x0;//rbp
-    mm[va2pa(0x7fffffffe058)] = 0x0;
-    mm[va2pa(0x7fffffffe050)] = 0xabcd;
-    mm[va2pa(0x7fffffffe048)] = 0x12340000;
-    mm[va2pa(0x7fffffffe040)] = 0x00000000;//rsp
+
+    write64bits_dram(va2pa(0x7fffffffe060),0x0);//rbp
+    write64bits_dram(va2pa(0x7fffffffe058),0x0);
+    write64bits_dram(va2pa(0x7fffffffe050),0xabcd);
+    write64bits_dram(va2pa(0x7fffffffe048),0x12340000);
+    write64bits_dram(va2pa(0x7fffffffe040),0x00000000);//rsp
+    //uint64_t pa = va2pa(0x7fffffffe060);
+    //printf("%lx\n",read64bits_dram(va2pa(0x7fffffffe050)));
+    print_register();
+    print_stack();
 
 
     //run inst
@@ -53,11 +58,11 @@ int main(){
         printf("register not matched\n");
     }
 
-    match = match && (mm[va2pa(0x7fffffffe060)] == 0x0);//rbp
-    match = match && (mm[va2pa(0x7fffffffe05f)] = 0x1234abcd);
-    match = match && (mm[va2pa(0x7fffffffe050)] = 0xabcd);
-    match = match && (mm[va2pa(0x7fffffffe04f)] = 0x12340000);
-    match = match && (mm[va2pa(0x7fffffffe040)] = 0x00000000);//rsp
+    match = match && (read64bits_dram(va2pa(0x7fffffffe060)) == 0x0);//rbp
+    match = match && (read64bits_dram(va2pa(0x7fffffffe05f)) == 0x1234abcd);
+    match = match && (read64bits_dram(va2pa(0x7fffffffe050)) == 0xabcd);
+    match = match && (read64bits_dram(va2pa(0x7fffffffe04f)) == 0x12340000);
+    match = match && (read64bits_dram(va2pa(0x7fffffffe040)) == 0x00000000);//rsp
     if(match==1)
     {
         printf("memory matched\n");
