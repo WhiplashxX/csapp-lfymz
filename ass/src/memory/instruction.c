@@ -1,6 +1,8 @@
 #include"memory/instruction.h"
 #include"cpu/mmu.h"
 #include"cpu/register.h"
+#include<stdio.h>
+#include<stdint.h>
 
 static uint64_t decode_od(od_t od)
 {
@@ -76,17 +78,22 @@ void instruction_cycle()
     //op = add_reg_reg = 3
     //handler_table[add_reg_reg]==handler_table[3]==add_reg_reg_handler()
 
+    printf("    %s\n",instr->code);
+
 }
 
 void init_handler_table()
 {
     handler_table[mov_reg_reg] = &mov_reg_reg_handler;
     handler_table[add_reg_reg] = &add_reg_reg_handler;
+    handler_table[call] = &call_handler;
 }
 
 
 void mov_reg_reg_handler(uint64_t src,uint64_t dst)
-{
+{   
+    //src:reg
+    //des:reg
     *(uint64_t *)dst = *(uint64_t *)src;
     reg.rip = reg.rip + sizeof(inst_t);
 }
@@ -109,4 +116,16 @@ void add_reg_reg_handler(uint64_t src,uint64_t dst)
     0x12340000+0xabcd=0x1234abcd
     pmm[0x1235] = 0x1234abcd
     */
+}
+
+void call_handler(uint64_t src,uint64_t dst)
+{   
+    //src:imm address of called function
+    reg.rsp -= 8;
+    //write return address to rsp memory
+    write64bits_dram(
+        va2pa(reg.rsp),  reg.rip+sizeof(inst_t)
+    );
+    
+    reg.rip = src;
 }

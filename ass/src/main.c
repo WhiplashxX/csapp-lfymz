@@ -33,9 +33,12 @@ int main(){
 
 
     //run inst
-    for(int i=0;i<15;++i)
+    for(int i=0;i<3;++i)
     {
         instruction_cycle();
+
+        print_register();
+        print_stack();
     }
 
 

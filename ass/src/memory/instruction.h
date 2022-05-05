@@ -3,6 +3,7 @@
 
 #include<stdlib.h>
 #include<stdint.h>
+#include"memory/dram.h"
 
 #define NUM_INSTRTYPE 30
 
@@ -53,7 +54,7 @@ void init_handler_table();
 void instruction_cycle();
 
 void mov_reg_reg_handler(uint64_t src,uint64_t dst);
-
+void call_handler(uint64_t src,uint64_t dst);
 void add_reg_reg_handler(uint64_t src,uint64_t dst);
 
 #endif

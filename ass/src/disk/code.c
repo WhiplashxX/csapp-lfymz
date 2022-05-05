@@ -51,7 +51,13 @@ inst_t program[15] =
         mov_reg_mem,
         { REG,0,0,(uint64_t *)&reg.rax,NULL },
         { MM_IMM_REG,-0x8,0,(uint64_t *)&reg.rbp,NULL },
-        "add \%rax,-0x8(\%rbp)"
+        "mov \%rax,-0x8(\%rbp)"
+    },
+    {
+        mov_reg_mem,
+        { MM_IMM_REG,-0x8,0,(uint64_t *)&reg.rbp,NULL},
+        { REG,0,0,(uint64_t *)&reg.rax,NULL},
+        "mov -0x8(%rbp),%rax"
     },
     {
         pop_reg,
