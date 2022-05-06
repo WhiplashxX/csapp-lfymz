@@ -53,7 +53,7 @@ static uint64_t decode_od(od_t od)
             vaddr = *(od.reg2)*od.scal+(*(od.reg1))+ od.imm;
         }
 
-        return va2pa(vaddr);
+        return vaddr;
         
     }
 }
@@ -89,6 +89,7 @@ void init_handler_table()
     handler_table[call] = &call_handler;
     handler_table[push_reg] = &push_reg_handler;
     handler_table[pop_reg] = &pop_reg_handler;
+    handler_table[mov_reg_mem] = &mov_reg_mem_handler;
 }
 
 
@@ -100,10 +101,22 @@ void mov_reg_reg_handler(uint64_t src,uint64_t dst)
     reg.rip = reg.rip + sizeof(inst_t);
 }
 
+void mov_reg_mem_handler(uint64_t src,uint64_t dst)
+{   
+    //src:reg
+    //des:mem virtual address
+    
+    write64bits_dram(
+        va2pa(dst),*(uint64_t *)src
+    );
+
+    reg.rip = reg.rip + sizeof(inst_t);
+}
+
 void push_reg_handler(uint64_t src,uint64_t dst)
 {   
     //src:reg,des:empty
-    reg.rsp -= 0x8;
+    reg.rsp = reg.rsp - 0x8;
     write64bits_dram(
         va2pa(reg.rsp),*(uint64_t *)src
     );
