@@ -33,7 +33,7 @@ int main(){
 
 
     //run inst
-    for(int i=0;i<7;++i)
+    for(int i=0;i<15;++i)
     {
         instruction_cycle();
 
@@ -62,10 +62,10 @@ int main(){
     }
 
     match = match && (read64bits_dram(va2pa(0x7fffffffe060)) == 0x0);//rbp
-    match = match && (read64bits_dram(va2pa(0x7fffffffe05f)) == 0x1234abcd);
+    match = match && (read64bits_dram(va2pa(0x7fffffffe058)) == 0x1234abcd);
     match = match && (read64bits_dram(va2pa(0x7fffffffe050)) == 0xabcd);
-    match = match && (read64bits_dram(va2pa(0x7fffffffe04f)) == 0x12340000);
-    match = match && (read64bits_dram(va2pa(0x7fffffffe040)) == 0x00000000);//rsp
+    match = match && (read64bits_dram(va2pa(0x7fffffffe048)) == 0x12340000);
+    match = match && (read64bits_dram(va2pa(0x7fffffffe040)) == 0x0);//rsp
     if(match==1)
     {
         printf("memory matched\n");
