@@ -1,6 +1,6 @@
 #include<stdint.h>
 
-uint64_t sum(u_int64_t n)
+uint64_t sum(uint64_t n)
 {
     if(n == 0)
     {
