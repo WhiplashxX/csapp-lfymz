@@ -12,10 +12,13 @@ static void TestString2Uint();
 //symbols from isa and sram
 void print_register(core_t *cr);
 void print_stack(core_t *cr);
+void TestParsingOperand();
+
 
 int main()
 {
-    TestString2Uint();
+    TestParsingOperand();
+    //TestString2Uint();
     return 0;
 }
 
@@ -27,7 +30,7 @@ static void TestString2Uint()
         "0",
         "-0",
         "0x0",
-        "1234",
+        "0x1",
         "0x1234",
         "0xabcd",
         "-0xabcd",
@@ -59,10 +62,7 @@ static void TestAddFunctionCallAndComputation()
     ac->reg.rsp = 0x7fffffffe040;
     //ac->reg.rip = (uint64_t)&program[11];
 
-    ac->CF = 0;
-    ac->ZF = 0;
-    ac->SF = 0;
-    ac->OF = 0;
+    ac->flags.__flags_values = 0;
 
 
     write64bits_dram(va2pa(0x7fffffffe060,ac),0x0,ac);//rbp

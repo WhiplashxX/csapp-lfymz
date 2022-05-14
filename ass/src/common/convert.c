@@ -11,7 +11,8 @@ uint64_t string2uint(const char *str)
 }
 
 uint64_t string2uint_range(const char *str, int start, int end)
-{
+{   
+    printf("%s\n",str);
     //start:starting index inclusive
     //end:ending index inclusive
     end = (end == -1) ? strlen(str)-1 : end ;
@@ -20,7 +21,7 @@ uint64_t string2uint_range(const char *str, int start, int end)
     //DFA:deterministic finite automata to scan string and get value 
     int state = 0;
 
-    for(int i=0; i<=end; ++i)
+    for(int i=start; i<=end; ++i)
     {
         char c = str[i];
         if(state==0)
