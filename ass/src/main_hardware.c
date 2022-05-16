@@ -8,6 +8,7 @@
 
 static void TestAddFunctionCallAndComputation();
 static void TestString2Uint();
+static void TestSumRecursiveCondition();
 
 //symbols from isa and sram
 void print_register(core_t *cr);
@@ -18,7 +19,7 @@ void TestParsingInstruction();
 
 int main()
 {
-    TestAddFunctionCallAndComputation();
+    TestSumRecursiveCondition();
     //TestString2Uint();
     return 0;
 }
@@ -169,16 +170,16 @@ static void TestSumRecursiveCondition()
     write64bits_dram(va2pa(0x7ffffffee220, cr), 0x00007ffffffee310, cr);    // rsp
 
     char assembly[19][MAX_INSTRUCTION_CHAR] = {
-        "push   %rbp",              // 0
-        "mov    %rsp,%rbp",         // 1
-        "sub    $0x10,%rsp",        // 2
-        "mov    %rdi,-0x8(%rbp)",   // 3
-        "cmpq   $0x0,-0x8(%rbp)",   // 4
-        "jne    0x400200",          // 5: jump to 8
-        "mov    $0x0,%eax",         // 6
-        "jmp    0x400380",          // 7: jump to 14
-        "mov    -0x8(%rbp),%rax",   // 8
-        "sub    $0x1,%rax",         // 9
+        "push   %rbp",              // 0 0x00400000
+        "mov    %rsp,%rbp",         // 1 0x00400040
+        "sub    $0x10,%rsp",        // 2 0x00400080
+        "mov    %rdi,-0x8(%rbp)",   // 3 0x004000C0
+        "cmpq   $0x0,-0x8(%rbp)",   // 4 0x00400100
+        "jne    0x400200",          // 5: jump to 8 0x00400140
+        "mov    -0x8(%rbp),%rax",   // 6 0x00400180
+        "jmp    0x400380",          // 7: jump to 14 0x004001C0
+        "mov    -0x8(%rbp),%rax",   // 8 0x00400200
+        "sub    $0x1,%rax",         // 9 
         "mov    %rax,%rdi",         // 10
         "callq  0x00400000",        // 11
         "mov    -0x8(%rbp),%rdx",   // 12

@@ -3,6 +3,7 @@
 #include<headers/common.h>
 #include<string.h>
 #include<assert.h>
+#include<stdio.h>
 
 /*  
 Be careful with the x86-64 little endian integer encoding
