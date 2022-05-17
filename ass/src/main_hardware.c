@@ -154,20 +154,20 @@ static void TestSumRecursiveCondition()
     core_t *cr = (core_t *)&cores[ACTIVE_CORE];
 
     // init state
-    cr->reg.rax = 0x8000630;
-    cr->reg.rbx = 0x0;
-    cr->reg.rcx = 0x8000650;
-    cr->reg.rdx = 0x7ffffffee328;
-    cr->reg.rsi = 0x7ffffffee318;
+    cr->reg.rax = 0x55555555515f;
+    cr->reg.rbx = 0x555555555180;
+    cr->reg.rcx = 0x555555555180;
+    cr->reg.rdx = 0x7fffffffe118;
+    cr->reg.rsi = 0x7fffffffe108;
     cr->reg.rdi = 0x1;
-    cr->reg.rbp = 0x7ffffffee230;
-    cr->reg.rsp = 0x7ffffffee220;
+    cr->reg.rbp = 0x7fffffffe010;
+    cr->reg.rsp = 0x7fffffffe000;
 
     cr->flags.__flags_values = 0;
 
-    write64bits_dram(va2pa(0x7ffffffee230, cr), 0x0000000008000650, cr);    // rbp
-    write64bits_dram(va2pa(0x7ffffffee228, cr), 0x0000000000000000, cr);
-    write64bits_dram(va2pa(0x7ffffffee220, cr), 0x00007ffffffee310, cr);    // rsp
+    write64bits_dram(va2pa(0x7fffffffe010, cr), 0x0000000008000000, cr);    // rbp
+    write64bits_dram(va2pa(0x7fffffffe008, cr), 0x0000000000000000, cr);
+    write64bits_dram(va2pa(0x7fffffffe000, cr), 0x00007fffffffe100, cr);    // rsp
 
     char assembly[19][MAX_INSTRUCTION_CHAR] = {
         "push   %rbp",              // 0 0x00400000
@@ -212,13 +212,13 @@ static void TestSumRecursiveCondition()
     // gdb state ret from func
     int match = 1;
     match = match && cr->reg.rax == 0x6;
-    match = match && cr->reg.rbx == 0x0;
-    match = match && cr->reg.rcx == 0x8000650;
+    match = match && cr->reg.rbx == 0x555555555180;
+    match = match && cr->reg.rcx == 0x555555555180;
     match = match && cr->reg.rdx == 0x3;
-    match = match && cr->reg.rsi == 0x7ffffffee318;
+    match = match && cr->reg.rsi == 0x7fffffffe108;
     match = match && cr->reg.rdi == 0x0;
-    match = match && cr->reg.rbp == 0x7ffffffee230;
-    match = match && cr->reg.rsp == 0x7ffffffee220;
+    match = match && cr->reg.rbp == 0x7fffffffe010;
+    match = match && cr->reg.rsp == 0x7fffffffe000;
     
     if (match)
     {
@@ -229,9 +229,9 @@ static void TestSumRecursiveCondition()
         printf("register mismatch\n");
     }
 
-    match = match && (read64bits_dram(va2pa(0x7ffffffee230, cr), cr) == 0x0000000008000650); // rbp
-    match = match && (read64bits_dram(va2pa(0x7ffffffee228, cr), cr) == 0x0000000000000006);
-    match = match && (read64bits_dram(va2pa(0x7ffffffee220, cr), cr) == 0x00007ffffffee310); // rsp
+    match = match && (read64bits_dram(va2pa(0x7fffffffe010, cr), cr) == 0x0000000008000000); // rbp
+    match = match && (read64bits_dram(va2pa(0x7fffffffe008, cr), cr) == 0x0000000000000006);
+    match = match && (read64bits_dram(va2pa(0x7fffffffe000, cr), cr) == 0x00007fffffffe100); // rsp
 
     if (match)
     {
