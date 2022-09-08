@@ -6,6 +6,8 @@
         "*.wxss": "css",
         "common.h": "c",
         "memory.h": "c",
-        "cpu.h": "c"
+        "cpu.h": "c",
+        "linker.h": "c",
+        "stdlib.h": "c"
     }
 }
